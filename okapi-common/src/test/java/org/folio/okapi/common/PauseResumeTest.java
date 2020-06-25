@@ -1,5 +1,6 @@
 package org.folio.okapi.common;
 
+import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpClient;
@@ -28,7 +29,8 @@ public class PauseResumeTest {
   private void myStreamHandle2(RoutingContext ctx) {
     ctx.request().pause();
     HttpClient cli = vertx.createHttpClient();
-    HttpClientRequest req = cli.post(PORT, "localhost", "/test1", res -> {
+
+    HttpClientRequest req = HttpClientLegacy.post(cli, PORT, "localhost", "/test1", res -> {
       if (ctx.request().isEnded()) {
         ctx.response().end("OK2"); // Vert.x 3.6 series
       } else {
